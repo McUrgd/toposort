@@ -4,7 +4,13 @@
 @vertex_marked = Array.new
 @cycle_found = "cycle found"
 
-File.readlines("graph.txt").each do |line|
+input = ARGV[0]
+output = ARGV[1]
+puts "input not found" if input.to_s == ""
+puts "ouput not found" if output.to_s== ""
+abort if input.to_s == "" or output.to_s== ""
+
+File.readlines(input).each do |line|
 	t = line.partition(">")
 	vstart = t[0].strip
 	vend = t[2].strip
@@ -47,9 +53,10 @@ while (@vertex_unmarked.length>0) do
 	break if res == @cycle_found
 end
 
+file = File.new(output,"w+") 
 if res != @cycle_found
-	puts @vertex_sorted.reverse.to_s
+	file.puts @vertex_sorted.reverse.join(" > ")
 else 	
-	puts res
-	puts @vertex_marked.to_s
+	file.puts res
+	file.puts @vertex_marked.join(" > ")
 end
