@@ -1,3 +1,6 @@
+require_relative "basic.rb"
+include Toposort
+
 @edge = Hash.new
 @vertex = Array.new
 @cycle_found = "cycle found"
@@ -11,17 +14,10 @@ if graphFileName.to_s == "" or graphFileName.to_s== ""
 	abort
 end
 
-#читаем рёбра графа
-File.readlines(graphFileName).each do |line|
-	temp = line.partition(">")
-	vstart = temp[0].strip
-	vend = temp[2].strip
-	[vstart,vend].each do |x|
-		@vertex << x if not @vertex.include?(x)
-		@edge[x] = Array.new() if @edge[x]==nil
-	end
-	@edge[vstart] << vend 
-end
+#читаем граф
+g = Graph.new(graphFileName)
+@edge = g.edges_to_hash
+@vertex = g.nodes
 
 #функция, которая проверяет, что cycle действительно является циклом в графе
 #предолагается, что cycle начинается и заканчивается одной вершиной
