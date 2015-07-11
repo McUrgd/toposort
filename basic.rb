@@ -14,6 +14,18 @@ module Toposort
 		end	
 	end
 
+	class InputLine
+		attr_accessor :vstart
+		attr_accessor :vend
+		def initialize(line)
+			t = line.partition(">").each{|x| x.strip!}
+			@vstart = t[0]
+			@vend = t[2]
+			#если line = "A", то t = ["A", "", ""]
+			#если line = "A > B", то t = ["A", ">", "B"]
+			raise ArgumentError.new("input error "+line) if (@vstart == "" and line !="") or (t[1] == ">" and @vend == "")
+		end
+	end
 
 	class Graph 
 		attr_accessor :nodes
@@ -23,14 +35,10 @@ module Toposort
 			@nodes = Array.new
 			@edges = Array.new
 			File.readlines(filename).each do |line|
-				t = line.partition(">").each{|x| x.strip!}
-				#если line = "A", то t = ["A", "", ""]
-				#если line = "A > B", то t = ["A", ">", "B"]
-				vstart = t[0]
-				vend = t[2]
-				if (vstart == "" and line !="") or (t[1]=">" and vend == "")
-					raise ArgumentError.new("input error "+line)
-				elsif vend != ""
+				t = InputLine.new(line)
+				vstart = t.vstart
+				vend = t.vend
+				if t.vend != ""
 					@nodes << vend if not @nodes.include?(vend)
 					@edges << Edge.new(vstart,vend)
 				end	
@@ -40,12 +48,11 @@ module Toposort
 
 		def edges_to_hash
 			res = Hash.new
+			@nodes.each {|node| res[node] = Array.new }
 			@edges.each {
 				|edge|
 				node_from = edge.node_from
 				node_to = edge.node_to
-				res[node_from] = Array.new if res[node_from] == nil
-				res[node_to] = Array.new if res[node_to] == nil
 				res[node_from] << edge.node_to
 			}
 			res
