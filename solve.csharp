@@ -19,8 +19,8 @@ public static Visit(Node currentNode)
 	foreach (Node dependency in dependencyList) 
 	{
 		var res = Visit(dependency)
-		если res - ошибка - выйти из цикла и вернуть ошибку
+		РµСЃР»Рё res - РѕС€РёР±РєР° - РІС‹Р№С‚Рё РёР· С†РёРєР»Р° Рё РІРµСЂРЅСѓС‚СЊ РѕС€РёР±РєСѓ
 	}
 	sortedStack.Push(currentNode)
-	убрать currentNode из temporaryStack
+	СѓР±СЂР°С‚СЊ currentNode РёР· temporaryStack
 }
