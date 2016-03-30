@@ -14,13 +14,16 @@ public static Visit(Node currentNode)
 	{
 		return CycleDetectorResult.Fail(temporaryStack) 
 	}
-	IEnumerable<Node> dependencyList = currentNode.GetDependencies();
-	temporaryStack.Push(currentNode)
-	foreach (Node dependency in dependencyList) 
+	if not (sortedStack.Contains(currentNode))
 	{
-		var res = Visit(dependency)
-		если res - ошибка - выйти из цикла и вернуть ошибку
+		IEnumerable<Node> dependencyList = currentNode.GetDependencies();
+		temporaryStack.Push(currentNode)
+		foreach (Node dependency in dependencyList) 
+		{
+			var res = Visit(dependency)
+			если res - ошибка - выйти из цикла и вернуть ошибку
+		}
+		sortedStack.Push(currentNode)
+		убрать currentNode из temporaryStack
 	}
-	sortedStack.Push(currentNode)
-	убрать currentNode из temporaryStack
 }
