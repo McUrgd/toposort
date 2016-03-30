@@ -1,0 +1,26 @@
+public static CycleDetectorResult(root)
+{
+
+public var sortedStack = new Stack<Node>();
+public var temporaryStack = new Stack<Node>();
+
+return Visit(root)
+
+}
+
+public static Visit(Node currentNode)
+{
+	if temporaryStack.Contains(currentNode)
+	{
+		return CycleDetectorResult.Fail(temporaryStack) 
+	}
+	IEnumerable<Node> dependencyList = currentNode.GetDependencies();
+	temporaryStack.Push(currentNode)
+	foreach (Node dependency in dependencyList) 
+	{
+		var res = Visit(dependency)
+		если res - ошибка - выйти из цикла и вернуть ошибку
+	}
+	sortedStack.Push(currentNode)
+	убрать currentNode из temporaryStack
+}
