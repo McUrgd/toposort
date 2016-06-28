@@ -31,7 +31,7 @@ def parse(line):
     if not line:
         raise ValueError('line is empty')
 
-    source, destination = line.split('>', 1)
+    source, destination = line.split('->', 1)
 
     if not source:
         raise ValueError('source is not specified')
